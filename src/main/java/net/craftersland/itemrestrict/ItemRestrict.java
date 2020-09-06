@@ -1,34 +1,23 @@
 package net.craftersland.itemrestrict;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import net.craftersland.itemrestrict.restrictions.BlockBreak;
-import net.craftersland.itemrestrict.restrictions.Brewing;
-import net.craftersland.itemrestrict.restrictions.Crafting;
-import net.craftersland.itemrestrict.restrictions.Creative;
-import net.craftersland.itemrestrict.restrictions.Drop;
-import net.craftersland.itemrestrict.restrictions.OffHandSwap;
-import net.craftersland.itemrestrict.restrictions.Ownership;
-import net.craftersland.itemrestrict.restrictions.Pickup;
-import net.craftersland.itemrestrict.restrictions.Placement;
-import net.craftersland.itemrestrict.restrictions.Smelting;
-import net.craftersland.itemrestrict.restrictions.Usage;
+import net.craftersland.itemrestrict.restrictions.*;
 import net.craftersland.itemrestrict.utils.DisableRecipe;
 import net.craftersland.itemrestrict.utils.MaterialCollection;
 import net.craftersland.itemrestrict.utils.WearingScanner;
 import net.craftersland.itemrestrict.utils.WorldScanner;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class ItemRestrict extends JavaPlugin {
 	
@@ -81,7 +70,7 @@ public class ItemRestrict extends JavaPlugin {
         //Load Classes
         ws = new WorldScanner(this);
         es = new WearingScanner(this);
-        if (is112Server == false) {
+        if (!is112Server) {
         	ds = new DisableRecipe(this);
         } else {
         	log.warning("Removing recipes from the game is not possible in 1.12 due to a spigot bug: https://goo.gl/4v71Zv .Use CraftingBanned feature until this is fixed!");
@@ -100,7 +89,7 @@ public class ItemRestrict extends JavaPlugin {
     	pm.registerEvents(new BlockBreak(this), this);
     	pm.registerEvents(new Pickup(this), this);
     	pm.registerEvents(new Drop(this), this);
-    	if (is19Server == true) {
+    	if (is19Server) {
     		pm.registerEvents(new OffHandSwap(this), this);
     	}
     	CommandHandler cH = new CommandHandler(this);
@@ -108,11 +97,11 @@ public class ItemRestrict extends JavaPlugin {
     	
     	printConsoleStatus();
     	
-    	if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans") == true) {
+    	if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans")) {
     		//Start the wearing scanner task
     		es.wearingScanTask();
     	}
-    	if (configHandler.getBoolean("General.WorldScannerON") == true) {
+    	if (configHandler.getBoolean("General.WorldScannerON")) {
     		//Start the world scanner task
     		ws.worldScanTask();
 		}
@@ -143,26 +132,26 @@ public class ItemRestrict extends JavaPlugin {
         restrictedHandler = new RestrictedItemsHandler(this);
         
         //Restore recipes
-        if (is112Server == false) {
+        if (!is112Server) {
         	ds.restoreRecipes();
         }
-        if (configHandler.getBoolean("General.WorldScannerON") == true && worldScanner.containsKey(false)) {
+        if (configHandler.getBoolean("General.WorldScannerON") && worldScanner.containsKey(false)) {
         	ws.worldScanTask();
-        } else if (configHandler.getBoolean("General.WorldScannerON") == false && worldScanner.containsKey(true)) {
+        } else if (!configHandler.getBoolean("General.WorldScannerON") && worldScanner.containsKey(true)) {
         	Bukkit.getScheduler().cancelTask(worldScanner.get(true));
         	worldScanner.clear();
         	worldScanner.put(false, 0);
         }
-        if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans") == true && wearingScanner.containsKey(false)) {
+        if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans") && wearingScanner.containsKey(false)) {
         	es.wearingScanTask();
-        } else if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans") == false && wearingScanner.containsKey(true)) {
+        } else if (!configHandler.getBoolean("General.Restrictions.ArmorWearingBans") && wearingScanner.containsKey(true)) {
         	Bukkit.getScheduler().cancelTask(wearingScanner.get(true));
         	wearingScanner.clear();
         	wearingScanner.put(false, 0);
         }
         
         //Disable Recipes Task
-        if (is112Server == false) {
+        if (!is112Server) {
         	ds.disableRecipesTask(1);
         } else {
         	log.warning("Removing recipes from the game is not possible in 1.12 due to a spigot bug: https://goo.gl/4v71Zv .Use CraftingBanned feature until this is fixed!");
@@ -180,37 +169,37 @@ public class ItemRestrict extends JavaPlugin {
 	}
 	
 	private void printConsoleStatus() {
-		if (configHandler.getBoolean("General.Restrictions.EnableBrewingBans") == true) {
+		if (configHandler.getBoolean("General.Restrictions.EnableBrewingBans")) {
     		log.info("Brewing restrictions enabled!");
     	} else {
     		log.info("Brewing restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans") == true) {
+        if (configHandler.getBoolean("General.Restrictions.ArmorWearingBans")) {
     		log.info("Wearing restrictions enabled!");
     	} else {
     		log.info("Wearing restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.Restrictions.CreativeBans") == true) {
+        if (configHandler.getBoolean("General.Restrictions.CreativeBans")) {
     		log.info("Creative restrictions enabled!");
     	} else {
     		log.info("Creative restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.Restrictions.PickupBans") == true) {
+        if (configHandler.getBoolean("General.Restrictions.PickupBans")) {
     		log.info("Pickup restrictions enabled!");
     	} else {
     		log.info("Pickup restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.Restrictions.DropBans") == true) {
+        if (configHandler.getBoolean("General.Restrictions.DropBans")) {
     		log.info("Drop restrictions enabled!");
     	} else {
     		log.info("Drop restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.Restrictions.BreakBans") == true) {
+        if (configHandler.getBoolean("General.Restrictions.BreakBans")) {
     		log.info("Block break restrictions enabled!");
     	} else {
     		log.info("Block break restrictions disabled!");
     	}
-        if (configHandler.getBoolean("General.WorldScannerON") == true) {
+        if (configHandler.getBoolean("General.WorldScannerON")) {
     		log.info("WorldScanner is enabled!");
 		} else {
 			log.info("WorldScanner is disabled!");
@@ -244,5 +233,4 @@ public class ItemRestrict extends JavaPlugin {
 	public SoundHandler getSoundHandler() {
 		return sH;
 	}
-
 }

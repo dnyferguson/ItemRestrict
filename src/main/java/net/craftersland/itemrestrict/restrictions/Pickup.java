@@ -1,7 +1,8 @@
 package net.craftersland.itemrestrict.restrictions;
 
-import java.util.Random;
-
+import net.craftersland.itemrestrict.ItemRestrict;
+import net.craftersland.itemrestrict.RestrictedItemsHandler.ActionType;
+import net.craftersland.itemrestrict.utils.MaterialData;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,29 +11,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.craftersland.itemrestrict.ItemRestrict;
-import net.craftersland.itemrestrict.RestrictedItemsHandler.ActionType;
-import net.craftersland.itemrestrict.utils.MaterialData;
+import java.util.Random;
 
 public class Pickup implements Listener {
 	
-	private ItemRestrict ir;
+	private final ItemRestrict plugin;
 	
-	public Pickup(ItemRestrict ir) {
-		this.ir = ir;
+	public Pickup(ItemRestrict plugin) {
+		this.plugin = plugin;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler(priority = EventPriority.LOWEST)
 	private void onItemPickup(PlayerPickupItemEvent event) {
-		if (ir.getConfigHandler().getBoolean("General.Restrictions.PickupBans") == true) {
+		if (plugin.getConfigHandler().getBoolean("General.Restrictions.PickupBans")) {
 			Player p = event.getPlayer();
 			ItemStack item = event.getItem().getItemStack();
 			
-			MaterialData bannedInfo = ir.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
 			
 			if (bannedInfo == null) {
-				MaterialData bannedInfo2 = ir.getRestrictedItemsHandler().isBanned(ActionType.Pickup, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Pickup, p, item.getTypeId(), item.getDurability(), p.getLocation());
 				
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);
@@ -40,8 +38,8 @@ public class Pickup implements Listener {
 					Location loc = event.getItem().getLocation();
 					event.getItem().teleport(new Location(loc.getWorld(), loc.getX() + getRandomInt(), loc.getY() + getRandomInt(), loc.getZ() + getRandomInt()));
 					
-					ir.getSoundHandler().sendPlingSound(p);
-					ir.getConfigHandler().printMessage(p, "chatMessages.pickupRestricted", bannedInfo2.reason);
+					plugin.getSoundHandler().sendPlingSound(p);
+					plugin.getConfigHandler().printMessage(p, "chatMessages.pickupRestricted", bannedInfo2.reason);
 				}
 			}
 		}
@@ -49,8 +47,6 @@ public class Pickup implements Listener {
 	
 	private int getRandomInt() {
 		Random randomGenerator = new Random();
-		int randSlot = randomGenerator.nextInt(5);
-		return randSlot;
+		return randomGenerator.nextInt(5);
 	}
-
 }

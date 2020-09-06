@@ -34,7 +34,7 @@ public class MaterialData {
 	
 	@Override
 	public String toString() {
-		String returnValue = String.valueOf(this.typeID) + ":" + (this.allDataValues?"*":String.valueOf(this.data));
+		String returnValue = this.typeID + ":" + (this.allDataValues?"*":String.valueOf(this.data));
 		if(this.description != null) returnValue += ":" + this.description + ":" + this.reason;
 		
 		return returnValue;
@@ -48,13 +48,11 @@ public class MaterialData {
 		if(parts.length < 2) return null;
 		
 		try {
-			
 			int typeID = Integer.parseInt(parts[0]);
 			
 			short data;
 			boolean allDataValues;
-			if(parts[1].equals("*"))
-			{
+			if(parts[1].equals("*")) {
 				allDataValues = true;
 				data = 0;
 			}
@@ -69,5 +67,4 @@ public class MaterialData {
 			return null;
 		}
 	}
-
 }

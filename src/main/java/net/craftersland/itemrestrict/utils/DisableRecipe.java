@@ -1,50 +1,46 @@
 package net.craftersland.itemrestrict.utils;
 
-import java.util.Iterator;
-
+import net.craftersland.itemrestrict.ItemRestrict;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import net.craftersland.itemrestrict.ItemRestrict;
+import java.util.Iterator;
 
 public class DisableRecipe {
 	
-	private ItemRestrict ir;
+	private final ItemRestrict plugin;
 	
-	public DisableRecipe(ItemRestrict ir) {
-		this.ir = ir;
-		
+	public DisableRecipe(ItemRestrict plugin) {
+		this.plugin = plugin;
 		disableRecipesTask(5);
 	}
 	
 	private void removeRecipe(ItemStack is) {
         Iterator<Recipe> it = Bukkit.getServer().recipeIterator();
-        Recipe recipe = null;
+        Recipe recipe;
         while (it.hasNext()) {
             recipe = it.next();
             if (recipe != null && recipe.getResult().isSimilar(is)) {
-            	ir.disabledRecipes.add(recipe);
+            	plugin.disabledRecipes.add(recipe);
                 it.remove();
             }
         }
     }
 	
 	public void disableRecipesTask(int delay) {
-		Bukkit.getScheduler().runTaskLaterAsynchronously(ir, new Runnable() {
-
-			@SuppressWarnings("deprecation")
+		Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, new Runnable() {
 			@Override
 			public void run() {
-				if (ir.craftingDisabled.isEmpty() == false) {
-					for (String s : ir.craftingDisabled) {
+				if (!plugin.craftingDisabled.isEmpty()) {
+					for (String s : plugin.craftingDisabled) {
 						String[] s1 = s.split(":");
 						try {
 							int id = Integer.parseInt(s1[0]);
 							Material m = Material.getMaterial(id);
-							ItemStack is = null;
-							if (s1[1].contains("*") == true) {
+							ItemStack is;
+							if (s1[1].contains("*")) {
 								is = new ItemStack(m);
 							} else {
 								short b = Short.parseShort(s1[1]);
@@ -63,23 +59,20 @@ public class DisableRecipe {
 	}
 	
 	public void restoreRecipes() {
-		Bukkit.getScheduler().runTaskAsynchronously(ir, new Runnable() {
-
+		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
 			@Override
 			public void run() {
-				if (ir.disabledRecipes.isEmpty() == false) {
-					for (Recipe r : ir.disabledRecipes) {
+				if (!plugin.disabledRecipes.isEmpty()) {
+					for (Recipe r : plugin.disabledRecipes) {
 						try {
 							Bukkit.addRecipe(r);
 						} catch (Exception e) {
 							ItemRestrict.log.warning("Failed to restore disabled recipe for: " + r.getResult().getType().toString() + " .Error: " + e.getMessage());
 						}
 					}
-					ir.disabledRecipes.clear();
+					plugin.disabledRecipes.clear();
 				}
 			}
-			
 		});
 	}
-
 }

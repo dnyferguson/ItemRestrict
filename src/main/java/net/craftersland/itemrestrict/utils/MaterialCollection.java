@@ -5,28 +5,22 @@ import java.util.List;
 
 public class MaterialCollection {
 	
-	List<MaterialData> materials = new ArrayList<MaterialData>();
+	List<MaterialData> materials = new ArrayList<>();
 	
-	public void Add(MaterialData material)
-	{
+	public void Add(MaterialData material) {
 		int i;
-		for(i = 0; i < this.materials.size() && this.materials.get(i).typeID <= material.typeID; i++);
-		this.materials.add(i, material);
+		for(i = 0; i < this.materials.size() && this.materials.get(i).typeID <= material.typeID; i++) {
+			this.materials.add(i, material);
+		}
 	}
 	
 	//returns a MaterialInfo complete with the friendly material name from the config file
-	public MaterialData Contains(MaterialData material)
-	{
-		for(int i = 0; i < this.materials.size(); i++)
-		{
-			MaterialData thisMaterial = this.materials.get(i);
-			if(material.typeID == thisMaterial.typeID && (thisMaterial.allDataValues || material.data == thisMaterial.data))
-			{
+	public MaterialData Contains(MaterialData material) {
+		for (MaterialData thisMaterial : this.materials) {
+			if (material.typeID == thisMaterial.typeID && (thisMaterial.allDataValues || material.data == thisMaterial.data)) {
 				return thisMaterial;
-			}
-			else if(thisMaterial.typeID > material.typeID)
-			{
-				return null;				
+			} else if (thisMaterial.typeID > material.typeID) {
+				return null;
 			}
 		}
 			
@@ -34,12 +28,10 @@ public class MaterialCollection {
 	}
 	
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
-		for(int i = 0; i < this.materials.size(); i++)
-		{
-			stringBuilder.append(this.materials.get(i).toString() + " ");
+		for (MaterialData material : this.materials) {
+			stringBuilder.append(material.toString()).append(" ");
 		}
 		
 		return stringBuilder.toString();
@@ -54,5 +46,4 @@ public class MaterialCollection {
 	{
 		this.materials.clear();
 	}
-
 }

@@ -8,13 +8,12 @@ import org.bukkit.entity.Player;
 
 public class CommandHandler implements CommandExecutor {
 	
-    private ItemRestrict itemrestrict;
+    private final ItemRestrict plugin;
 	
-	public CommandHandler(ItemRestrict itemrestrict) {
-		this.itemrestrict = itemrestrict;
+	public CommandHandler(ItemRestrict plugin) {
+		this.plugin = plugin;
 	}
-	
-	//Commands
+
 	@Override
 	public boolean onCommand(final CommandSender sender, final Command command, final String cmdlabel, final String[] args) {
 		final Player p;
@@ -36,21 +35,20 @@ public class CommandHandler implements CommandExecutor {
 					if (sender instanceof Player) {
 						p = (Player) sender;
 						if (p.hasPermission("ItemRestrict.admin")) {
+							plugin.onReload();
 							
-							itemrestrict.onReload();
-							
-							itemrestrict.getConfigHandler().printMessage(p, "chatMessages.reload", "");
-							itemrestrict.getSoundHandler().sendLevelUpSound(p);
+							plugin.getConfigHandler().printMessage(p, "chatMessages.reload", "");
+							plugin.getSoundHandler().sendLevelUpSound(p);
 							
 							return true;
 						} else {
-							itemrestrict.getConfigHandler().printMessage(p, "chatMessages.noPermission", "");
+							plugin.getConfigHandler().printMessage(p, "chatMessages.noPermission", "");
 							
-							itemrestrict.getSoundHandler().sendPlingSound(p);
+							plugin.getSoundHandler().sendPlingSound(p);
 							return false;
 						}
 					} else {
-						itemrestrict.onReload();
+						plugin.onReload();
 						return true;
 					}
 				}
@@ -70,8 +68,8 @@ public class CommandHandler implements CommandExecutor {
 			if (args.length > 1 || !args[0].equalsIgnoreCase("help") && !args[0].equalsIgnoreCase("reload")) {
 				if (sender instanceof Player) {
 					p = (Player) sender;
-					itemrestrict.getConfigHandler().printMessage(p, "chatMessages.unknownCommand", "");
-					itemrestrict.getSoundHandler().sendPlingSound(p);
+					plugin.getConfigHandler().printMessage(p, "chatMessages.unknownCommand", "");
+					plugin.getSoundHandler().sendPlingSound(p);
 				} else {
 					sender.sendMessage(ChatColor.RED + "Unknown command for help do /itemrestrict");
 				}
@@ -82,8 +80,8 @@ public class CommandHandler implements CommandExecutor {
 	
 	//Player help page
 	public void sendHelp(Player p) {
-		if (itemrestrict.getConfigHandler().getString("General.Sounds.onCommands").matches("true")) {
-			itemrestrict.getSoundHandler().sendAnvilLandSound(p);
+		if (plugin.getConfigHandler().getString("General.Sounds.onCommands").matches("true")) {
+			plugin.getSoundHandler().sendAnvilLandSound(p);
 		}
 		
 		p.sendMessage(" ");
@@ -116,5 +114,4 @@ public class CommandHandler implements CommandExecutor {
 			sender.sendMessage(ChatColor.DARK_RED + "-=-=-=-=-=-=-=-=-< " + ChatColor.RED + "" + ChatColor.BOLD + "Console Help Page" + ChatColor.DARK_RED + " >-=-=-=-=-=-=-=-=-");
 			sender.sendMessage(" ");
 	}
-
 }

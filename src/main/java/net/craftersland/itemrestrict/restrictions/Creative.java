@@ -1,5 +1,8 @@
 package net.craftersland.itemrestrict.restrictions;
 
+import net.craftersland.itemrestrict.ItemRestrict;
+import net.craftersland.itemrestrict.RestrictedItemsHandler.ActionType;
+import net.craftersland.itemrestrict.utils.MaterialData;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,63 +13,57 @@ import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import net.craftersland.itemrestrict.ItemRestrict;
-import net.craftersland.itemrestrict.RestrictedItemsHandler.ActionType;
-import net.craftersland.itemrestrict.utils.MaterialData;
-
 public class Creative implements Listener {
 	
-	private ItemRestrict ir;
+	private final ItemRestrict plugin;
 	
-	public Creative(ItemRestrict ir) {
-		this.ir = ir;
+	public Creative(ItemRestrict plugin) {
+		this.plugin = plugin;
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler(priority = EventPriority.LOWEST)
 	private void onCreativeEvents(InventoryCreativeEvent event) {
-		if (ir.getConfigHandler().getBoolean("General.Restrictions.CreativeBans") == true) {
+		if (plugin.getConfigHandler().getBoolean("General.Restrictions.CreativeBans")) {
 			ItemStack cursorItem = event.getCursor();
 			
 			if (cursorItem != null) {
 				Player p = (Player) event.getWhoClicked();
-				MaterialData bannedInfo = ir.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
 				
 				if (bannedInfo == null) {
-					MaterialData bannedInfo2 = ir.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+					MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
 					
 					if (bannedInfo2 != null) {
 						event.setCancelled(true);
 						event.setCursor(null);
 						
-						ir.getSoundHandler().sendItemBreakSound(p);
-						ir.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
+						plugin.getSoundHandler().sendItemBreakSound(p);
+						plugin.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
 					}
 				}
 			}
 		}
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler(priority = EventPriority.LOWEST)
 	private void onItemClicked(InventoryClickEvent event) {
-		if (ir.getConfigHandler().getBoolean("General.Restrictions.CreativeBans") == true) {
+		if (plugin.getConfigHandler().getBoolean("General.Restrictions.CreativeBans")) {
 			if (event.getSlotType() != null) {
 				if (event.getCurrentItem() != null) {
 					Player p = (Player) event.getWhoClicked();
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						ItemStack currentItem = event.getCurrentItem();
 						
-						MaterialData bannedInfo = ir.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
 						
 						if (bannedInfo == null) {
-							MaterialData bannedInfo2 = ir.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
+							MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
 							
 							if (bannedInfo2 != null) {
 								event.setCancelled(true);
 								
-								ir.getSoundHandler().sendItemBreakSound(p);
-								ir.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
+								plugin.getSoundHandler().sendItemBreakSound(p);
+								plugin.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
 							}
 						}
 					}
@@ -74,8 +71,7 @@ public class Creative implements Listener {
 			}
 		}
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	@EventHandler(priority = EventPriority.LOWEST)
 	private void onInteract(PlayerInteractEvent event) {
 		Player p = event.getPlayer();
@@ -83,19 +79,18 @@ public class Creative implements Listener {
 		if (p.getGameMode() == GameMode.CREATIVE) {
 			ItemStack item = p.getItemInHand();
 			
-			MaterialData bannedInfo = ir.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
 			
 			if (bannedInfo == null) {
-				MaterialData bannedInfo2 = ir.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, item.getTypeId(), item.getDurability(), p.getLocation());
 				
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);
 					
-					ir.getSoundHandler().sendItemBreakSound(p);
-					ir.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
+					plugin.getSoundHandler().sendItemBreakSound(p);
+					plugin.getConfigHandler().printMessage(p, "chatMessages.creativeRestricted", bannedInfo2.reason);
 				}
 			}
 		}
 	}
-
 }
