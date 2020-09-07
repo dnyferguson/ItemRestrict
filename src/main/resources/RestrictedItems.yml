@@ -1,4 +1,4 @@
-#Restricted Items List - v 2.4.1
+#Restricted Items List - v 2.5.0
 
 #----------------------------------------------------------------------------------------------------------------------------------------------------------
 #How to add items to the restricted list? Here is an example:
@@ -13,6 +13,10 @@
 # Example:
 # - 7:*:Bedrock:You can't get this item!
 # - 383:50:CreeperEgg:Used to grief
+#
+# (IMPORTANT)
+# If you are on 1.12+ You will want to use item names instead of ids, for example:
+# - BEDROCK:*:Bedrock:You can't get this item!
 #
 #----------------------------------------------------------------------------------------------------------------------------------------------------------
 
