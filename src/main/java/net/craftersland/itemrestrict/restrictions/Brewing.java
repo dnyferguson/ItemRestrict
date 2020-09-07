@@ -39,19 +39,19 @@ public class Brewing implements Listener {
 		ItemStack ing = event.getContents().getIngredient();
 		
 		if (event.getContents().getItem(0) != null) {
-			potionSlot0 = new ItemStack(event.getContents().getItem(0).getType(), 1, (short) event.getContents().getItem(0).getDurability());
+			potionSlot0 = new ItemStack(event.getContents().getItem(0).getType(), 1, (short) event.getContents().getItem(0).getData().getData());
 		}
 		if (event.getContents().getItem(1) != null) {
-			potionSlot1 = new ItemStack(event.getContents().getItem(1).getType(), 1, (short) event.getContents().getItem(1).getDurability());
+			potionSlot1 = new ItemStack(event.getContents().getItem(1).getType(), 1, (short) event.getContents().getItem(1).getData().getData());
 		}
 		if (event.getContents().getItem(2) != null) {
-			potionSlot2 = new ItemStack(event.getContents().getItem(2).getType(), 1, (short) event.getContents().getItem(2).getDurability());
+			potionSlot2 = new ItemStack(event.getContents().getItem(2).getType(), 1, (short) event.getContents().getItem(2).getData().getData());
 		}
 		
 		final ItemStack Slot0 = potionSlot0;
 		final ItemStack Slot1 = potionSlot1;
 		final ItemStack Slot2 = potionSlot2;
-		final ItemStack ingredient = new ItemStack(ing.getType(), 1, ing.getDurability());
+		final ItemStack ingredient = new ItemStack(ing.getType(), 1, ing.getData().getData());
 		
 		//Check the brewed potions for banned potions. Delayed task to check the potions after brewing.
 		Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -70,7 +70,7 @@ public class Brewing implements Listener {
 				ItemStack item2 = event.getContents().getItem(2);
 				//Check slot 0 for banned items
 				if (item0 != null) {
-					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item0.getTypeId(), item0.getData().getData(), event.getBlock().getLocation());
+					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item0.getType(), item0.getData().getData(), event.getBlock().getLocation());
 					
 					if (bannedInfo != null) {
 						
@@ -84,7 +84,7 @@ public class Brewing implements Listener {
 				}
 				//Check slot 1 for banned items
 				if (item1 != null) {
-					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item1.getTypeId(), item1.getData().getData(), event.getBlock().getLocation());
+					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item1.getType(), item1.getData().getData(), event.getBlock().getLocation());
 					
 					if(bannedInfo != null) {
 						
@@ -98,7 +98,7 @@ public class Brewing implements Listener {
 				}
 				//Check slot 2 for banned items
 				if (item2 != null) {
-					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item2.getTypeId(), item2.getData().getData(), event.getBlock().getLocation());
+					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Brewing, player, item2.getType(), item2.getData().getData(), event.getBlock().getLocation());
 					
 					if (bannedInfo != null) {
 						

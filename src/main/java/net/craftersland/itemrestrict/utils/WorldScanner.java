@@ -71,7 +71,7 @@ public class WorldScanner {
 	}
 
 	private void removeBlock(final Block block) {
-		MaterialData materialInfo = new MaterialData(block.getTypeId(), block.getData(), null, null);
+		MaterialData materialInfo = new MaterialData(block.getType(), block.getData(), null, null);
 		MaterialData bannedInfo = plugin.worldBanned.Contains(materialInfo);
 		boolean removeSkull = false;
 		if (bannedInfo == null) {

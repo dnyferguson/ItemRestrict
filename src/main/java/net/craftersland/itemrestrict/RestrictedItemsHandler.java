@@ -3,6 +3,7 @@ package net.craftersland.itemrestrict;
 import net.craftersland.itemrestrict.utils.MaterialCollection;
 import net.craftersland.itemrestrict.utils.MaterialData;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -141,7 +142,7 @@ public class RestrictedItemsHandler {
 		//for each string in the list
 		for (String s : stringsToParse) {
 			//try to parse the string value into a material info
-			MaterialData materialData = MaterialData.fromString(s);
+			MaterialData materialData = MaterialData.fromString(s, plugin);
 
 			//null value returned indicates an error parsing the string from the config file
 			if (materialData == null) {
@@ -156,8 +157,8 @@ public class RestrictedItemsHandler {
 		}		
 	}
 	
-	public MaterialData isBanned(ActionType actionType, Player player, int typeId, short data, Location location) {
-		if (plugin.getConfigHandler().getString("General.EnableOnAllWorlds") != "true") {
+	public MaterialData isBanned(ActionType actionType, Player player, Material material, short data, Location location) {
+		if (!plugin.getConfigHandler().getString("General.EnableOnAllWorlds").equals("true")) {
 			if (location != null) {
 				if(!ItemRestrict.enforcementWorlds.contains(location.getWorld())) return null;
 			}
@@ -199,15 +200,22 @@ public class RestrictedItemsHandler {
 			collectionToSearch = ItemRestrict.ownershipBanned;
 			permissionNode = "own";
 		}
-		
-		MaterialData bannedInfo = collectionToSearch.Contains(new MaterialData(typeId, data, null, null));
+
+//		System.out.println("DEBUG: trying item " + material.name() + ":" + data);
+//		System.out.println("DEBUG 2: Should be " + material.name() + ":" + material);
+
+		MaterialData bannedInfo = collectionToSearch.Contains(new MaterialData(material, data, null, null));
 		if(bannedInfo != null) {
 			if (player == null) return bannedInfo;
-			if(player.hasPermission("ItemRestrict.bypass." + typeId + ".*.*")) return null;
-			if(player.hasPermission("ItemRestrict.bypass." + typeId + ".*." + permissionNode)) return null;
-			if(player.hasPermission("ItemRestrict.bypass." + typeId + "." + data + "." + permissionNode)) return null;			
-			if(player.hasPermission("ItemRestrict.bypass." + typeId + "." + data + ".*")) return null;
-			
+			if(player.hasPermission("ItemRestrict.bypass." + material.getId() + ".*.*")) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.name().toLowerCase() + ".*.*")) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.getId() + ".*." + permissionNode)) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.name().toLowerCase() + ".*." + permissionNode)) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.getId() + "." + data + "." + permissionNode)) return null;			
+			if(player.hasPermission("ItemRestrict.bypass." + material.name().toLowerCase() + "." + data + "." + permissionNode)) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.getId() + "." + data + ".*")) return null;
+			if(player.hasPermission("ItemRestrict.bypass." + material.name().toLowerCase() + "." + data + ".*")) return null;
+
 			return bannedInfo;
 		}
 		return null;

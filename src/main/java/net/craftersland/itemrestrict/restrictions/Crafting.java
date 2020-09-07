@@ -25,7 +25,7 @@ public class Crafting implements Listener {
 			if (!event.getViewers().isEmpty()) {
 				Player p = (Player) event.getViewers().get(0);
 				
-				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Crafting, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Crafting, p, item.getType(), item.getData().getData(), p.getLocation());
 				
 				if (bannedInfo != null) {
 					event.getInventory().setResult(null);
@@ -34,7 +34,7 @@ public class Crafting implements Listener {
 					plugin.getConfigHandler().printMessage(p, "chatMessages.craftingRestricted", bannedInfo.reason);
 				}
 			} else {
-	            MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Crafting, null, item.getTypeId(), item.getDurability(), null);
+	            MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Crafting, null, item.getType(), item.getData().getData(), null);
 				
 				if (bannedInfo != null) {
 					event.getInventory().setResult(null);

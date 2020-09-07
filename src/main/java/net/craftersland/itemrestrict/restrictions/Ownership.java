@@ -56,7 +56,7 @@ public class Ownership implements Listener {
 			ItemStack cursorItem = event.getOldCursor();
 			
 			if (cursorItem != null) {
-				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getType(), cursorItem.getData().getData(), p.getLocation());
 				
 				if (bannedInfo != null) {
 					event.setCancelled(true);
@@ -69,7 +69,7 @@ public class Ownership implements Listener {
 	}
 	
 	private void inventoryClickRestriction(InventoryClickEvent event, ItemStack currentItem, Player p, Boolean removeCursorItem) {
-		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
+		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getType(), currentItem.getData().getData(), p.getLocation());
 		
 		if (bannedInfo != null) {
 			event.setCancelled(true);
@@ -112,7 +112,7 @@ public class Ownership implements Listener {
 		Player p = event.getPlayer();
 		ItemStack item = event.getItem().getItemStack();
 		
-		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 		
 		if (bannedInfo != null) {
 			event.setCancelled(true);
@@ -132,7 +132,7 @@ public class Ownership implements Listener {
 		ItemStack item = p.getInventory().getItem(newSlot);
 		
 		if (item != null) {
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo != null) {
 				p.getInventory().setItem(newSlot, null);
@@ -150,7 +150,7 @@ public class Ownership implements Listener {
 		if (cursorItem != null) {
 			Player p = (Player) event.getWhoClicked();
 			
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getType(), cursorItem.getData().getData(), p.getLocation());
 			
 			if (bannedInfo != null) {
 				event.setCancelled(true);
@@ -168,7 +168,7 @@ public class Ownership implements Listener {
 		ItemStack item = p.getItemInHand();
 		
 		if (item != null) {
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo != null) {
 				event.setCancelled(true);
@@ -185,7 +185,7 @@ public class Ownership implements Listener {
 		Player p = event.getPlayer();
 		ItemStack item = event.getItemDrop().getItemStack();
 		
-		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 		
 		if (bannedInfo != null) {
 			event.getItemDrop().remove();

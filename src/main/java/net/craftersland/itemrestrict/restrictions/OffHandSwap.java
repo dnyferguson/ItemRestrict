@@ -18,10 +18,10 @@ public class OffHandSwap implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private void onOffHandSwap(PlayerSwapHandItemsEvent event) {
-		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, event.getPlayer(), event.getOffHandItem().getTypeId(), event.getOffHandItem().getDurability(), event.getPlayer().getLocation());
+		MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, event.getPlayer(), event.getOffHandItem().getType(), event.getOffHandItem().getData().getData(), event.getPlayer().getLocation());
 		if (bannedInfo == null) {
-			MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, event.getPlayer(), event.getOffHandItem().getTypeId(), event.getOffHandItem().getDurability(), event.getPlayer().getLocation());
-			MaterialData bannedInfo3 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getOffHandItem().getTypeId(), event.getOffHandItem().getDurability(), event.getPlayer().getLocation());
+			MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, event.getPlayer(), event.getOffHandItem().getType(), event.getOffHandItem().getData().getData(), event.getPlayer().getLocation());
+			MaterialData bannedInfo3 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getOffHandItem().getType(), event.getOffHandItem().getData().getData(), event.getPlayer().getLocation());
 			if (bannedInfo2 != null) {
 				event.setCancelled(true);
 				plugin.getSoundHandler().sendPlingSound(event.getPlayer());

@@ -8,20 +8,21 @@ public class MaterialCollection {
 	List<MaterialData> materials = new ArrayList<>();
 	
 	public void Add(MaterialData material) {
-		int i;
-		for(i = 0; i < this.materials.size() && this.materials.get(i).typeID <= material.typeID; i++) {
-			this.materials.add(i, material);
-		}
+		this.materials.add(material);
 	}
 	
 	//returns a MaterialInfo complete with the friendly material name from the config file
 	public MaterialData Contains(MaterialData material) {
-		for (MaterialData thisMaterial : this.materials) {
-			if (material.typeID == thisMaterial.typeID && (thisMaterial.allDataValues || material.data == thisMaterial.data)) {
-				return thisMaterial;
-			} else if (thisMaterial.typeID > material.typeID) {
-				return null;
+		for (MaterialData mat : this.materials) {
+			if (material.material != mat.material) {
+				continue;
 			}
+
+			if (material.data != mat.data && !mat.allDataValues) {
+				continue;
+			}
+
+			return mat;
 		}
 			
 		return null;

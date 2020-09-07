@@ -58,7 +58,7 @@ public class Usage implements Listener {
 		Block interactigBlock = event.getClickedBlock();
 		MaterialData bannedInfoInteractingBlock = null;
 		if (interactigBlock != null) {
-			bannedInfoInteractingBlock = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, interactigBlock.getTypeId(), interactigBlock.getData(), p.getLocation());
+			bannedInfoInteractingBlock = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, interactigBlock.getType(), interactigBlock.getData(), p.getLocation());
 		}
 
 		if (bannedInfoInteractingBlock != null) {
@@ -67,8 +67,8 @@ public class Usage implements Listener {
 			plugin.getConfigHandler().printMessage(p, "chatMessages.ussageRestricted", bannedInfoInteractingBlock.reason);
 		} else if (!plugin.is19Server) {
 			if (!event.isBlockInHand()) {
-				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation()) == null) {
-					MaterialData bannedInfoMainHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation()) == null) {
+					MaterialData bannedInfoMainHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getType(), item.getData().getData(), p.getLocation());
 					if (bannedInfoMainHand != null) {
 						event.setCancelled(true);
 						Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -91,8 +91,8 @@ public class Usage implements Listener {
 			}
 		} else {
 			if (!event.isBlockInHand()) {
-				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation()) == null) {
-					MaterialData bannedInfoMainHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation()) == null) {
+					MaterialData bannedInfoMainHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getType(), item.getData().getData(), p.getLocation());
 					if (bannedInfoMainHand != null) {
 						event.setCancelled(true);
 						Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -112,8 +112,8 @@ public class Usage implements Listener {
 						plugin.getConfigHandler().printMessage(p, "chatMessages.ussageRestricted", bannedInfoMainHand.reason);
 					}
 				}
-				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation()) == null) {
-					MaterialData bannedInfoOffHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item2.getTypeId(), item2.getDurability(), p.getLocation());
+				if (plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation()) == null) {
+					MaterialData bannedInfoOffHand = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item2.getType(), item2.getData().getData(), p.getLocation());
 					if (bannedInfoOffHand != null) {
 						event.setCancelled(true);
 						Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -145,10 +145,10 @@ public class Usage implements Listener {
 		
 		if (item != null) {
 			if (!item.getType().isBlock()) {
-				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 				
 				if (bannedInfo == null) {
-					MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getTypeId(), item.getDurability(), p.getLocation());
+					MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getType(), item.getData().getData(), p.getLocation());
 					
 					if (bannedInfo2 != null) {
 						p.getWorld().dropItem(p.getLocation(), item);
@@ -168,7 +168,7 @@ public class Usage implements Listener {
 		if (event.getDamager() instanceof Player) {
 			Player p = (Player) event.getDamager();
 			ItemStack item = p.getItemInHand();
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo != null) {
 				event.setCancelled(true);
@@ -179,7 +179,7 @@ public class Usage implements Listener {
 				if (pr.getShooter() instanceof Player) {
 					Player p = (Player) pr.getShooter();
 					ItemStack item = p.getItemInHand();
-					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getTypeId(), item.getDurability(), p.getLocation());
+					MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Usage, p, item.getType(), item.getData().getData(), p.getLocation());
 					
 					if (bannedInfo != null) {
 						event.setCancelled(true);

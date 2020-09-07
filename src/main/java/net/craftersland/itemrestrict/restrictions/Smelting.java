@@ -25,7 +25,7 @@ public class Smelting implements Listener {
 		Furnace f = (Furnace) event.getBlock().getState();
 		if (!f.getInventory().getViewers().isEmpty()) {
 			Player p = (Player) f.getInventory().getViewers().get(0);
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Smelting, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Smelting, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo != null) {
 				event.setCancelled(true);
@@ -33,7 +33,7 @@ public class Smelting implements Listener {
 				plugin.getConfigHandler().printMessage(p, "chatMessages.smeltingRestricted", bannedInfo.reason);
 			}
 		} else {
-            MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Smelting, null, item.getTypeId(), item.getDurability(), null);
+            MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Smelting, null, item.getType(), item.getData().getData(), null);
 			if (bannedInfo != null) {
 				event.setCancelled(true);
 			}

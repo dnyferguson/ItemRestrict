@@ -27,7 +27,7 @@ public class WearingScanner {
 					final ItemStack helmet = p.getInventory().getHelmet();
 
 					if (boots != null) {
-						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, boots.getTypeId(), boots.getData().getData(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, boots.getType(), boots.getData().getData(), p.getLocation());
 						if (bannedInfo != null) {
 							plugin.getConfigHandler().printMessage(p, "chatMessages.wearingRestricted", bannedInfo.reason);
 							Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -42,7 +42,7 @@ public class WearingScanner {
 						}
 					}
 					if (leggings != null) {
-						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, leggings.getTypeId(), leggings.getData().getData(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, leggings.getType(), leggings.getData().getData(), p.getLocation());
 						if (bannedInfo != null) {
 							plugin.getConfigHandler().printMessage(p, "chatMessages.wearingRestricted", bannedInfo.reason);
 							Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -56,7 +56,7 @@ public class WearingScanner {
 						}
 					}
 					if (chestplate != null) {
-						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, chestplate.getTypeId(), chestplate.getData().getData(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, chestplate.getType(), chestplate.getData().getData(), p.getLocation());
 						if (bannedInfo != null) {
 							plugin.getConfigHandler().printMessage(p, "chatMessages.wearingRestricted", bannedInfo.reason);
 							Bukkit.getScheduler().runTask(plugin, new Runnable() {
@@ -70,7 +70,7 @@ public class WearingScanner {
 						}
 					}
 					if (helmet != null) {
-						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, helmet.getTypeId(), helmet.getData().getData(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Wearing, p, helmet.getType(), helmet.getData().getData(), p.getLocation());
 						if (bannedInfo != null) {
 							plugin.getConfigHandler().printMessage(p, "chatMessages.wearingRestricted", bannedInfo.reason);
 							Bukkit.getScheduler().runTask(plugin, new Runnable() {

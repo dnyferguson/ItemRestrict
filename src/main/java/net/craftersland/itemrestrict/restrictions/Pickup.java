@@ -27,10 +27,10 @@ public class Pickup implements Listener {
 			Player p = event.getPlayer();
 			ItemStack item = event.getItem().getItemStack();
 			
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo == null) {
-				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Pickup, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Pickup, p, item.getType(), item.getData().getData(), p.getLocation());
 				
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);

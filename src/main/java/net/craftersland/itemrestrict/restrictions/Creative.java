@@ -28,10 +28,10 @@ public class Creative implements Listener {
 			
 			if (cursorItem != null) {
 				Player p = (Player) event.getWhoClicked();
-				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+				MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, cursorItem.getType(), cursorItem.getData().getData(), p.getLocation());
 				
 				if (bannedInfo == null) {
-					MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, cursorItem.getTypeId(), cursorItem.getDurability(), p.getLocation());
+					MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, cursorItem.getType(), cursorItem.getData().getData(), p.getLocation());
 					
 					if (bannedInfo2 != null) {
 						event.setCancelled(true);
@@ -54,10 +54,10 @@ public class Creative implements Listener {
 					if (p.getGameMode() == GameMode.CREATIVE) {
 						ItemStack currentItem = event.getCurrentItem();
 						
-						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
+						MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, currentItem.getType(), currentItem.getData().getData(), p.getLocation());
 						
 						if (bannedInfo == null) {
-							MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, currentItem.getTypeId(), currentItem.getDurability(), p.getLocation());
+							MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, currentItem.getType(), currentItem.getData().getData(), p.getLocation());
 							
 							if (bannedInfo2 != null) {
 								event.setCancelled(true);
@@ -79,10 +79,10 @@ public class Creative implements Listener {
 		if (p.getGameMode() == GameMode.CREATIVE) {
 			ItemStack item = p.getItemInHand();
 			
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo == null) {
-				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Creative, p, item.getType(), item.getData().getData(), p.getLocation());
 				
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);

@@ -24,15 +24,15 @@ public class BlockBreak implements Listener {
 			ItemStack itemToDrop = null;
 			if (event.getBlock().getDrops().iterator().hasNext()) {
 				itemToDrop = event.getBlock().getDrops().iterator().next();
-				if (event.getBlock().getTypeId() == itemToDrop.getTypeId()) {
+				if (event.getBlock().getType() == itemToDrop.getType()) {
 					compareDrops = true;
 				}
 			}
 			MaterialData bannedInfo;
 			if (!compareDrops) {
-				bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.BlockBreak, event.getPlayer(), event.getBlock().getTypeId(), event.getBlock().getState().getData().getData(), event.getPlayer().getLocation());
+				bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.BlockBreak, event.getPlayer(), event.getBlock().getType(), event.getBlock().getState().getData().getData(), event.getPlayer().getLocation());
 			} else {
-				bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.BlockBreak, event.getPlayer(), itemToDrop.getTypeId(), itemToDrop.getDurability(), event.getPlayer().getLocation());
+				bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.BlockBreak, event.getPlayer(), itemToDrop.getType(), itemToDrop.getData().getData(), event.getPlayer().getLocation());
 			}
 			
 			if (bannedInfo != null) {

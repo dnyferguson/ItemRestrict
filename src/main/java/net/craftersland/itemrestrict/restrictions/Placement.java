@@ -19,13 +19,13 @@ public class Placement implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST)
 	private void onInteract(BlockPlaceEvent event) {
 		if (plugin.placementBanned.size() != 0) {
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getItemInHand().getTypeId(), event.getItemInHand().getDurability(), event.getPlayer().getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getItemInHand().getType(), event.getItemInHand().getData().getData(), event.getPlayer().getLocation());
 			if (bannedInfo != null) {
 				event.setCancelled(true);
 				plugin.getSoundHandler().sendEndermanTeleportSound(event.getPlayer());
 				plugin.getConfigHandler().printMessage(event.getPlayer(), "chatMessages.placementRestricted", bannedInfo.reason);
 			} else if (plugin.is19Server) {
-				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getPlayer().getInventory().getItemInOffHand().getTypeId(), event.getPlayer().getInventory().getItemInOffHand().getDurability(), event.getPlayer().getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Placement, event.getPlayer(), event.getPlayer().getInventory().getItemInOffHand().getType(), event.getPlayer().getInventory().getItemInOffHand().getData().getData(), event.getPlayer().getLocation());
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);
 					plugin.getSoundHandler().sendEndermanTeleportSound(event.getPlayer());

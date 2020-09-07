@@ -24,10 +24,10 @@ public class Drop implements Listener {
 			Player p = event.getPlayer();
 			ItemStack item = event.getItemDrop().getItemStack();
 			
-			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getTypeId(), item.getDurability(), p.getLocation());
+			MaterialData bannedInfo = plugin.getRestrictedItemsHandler().isBanned(ActionType.Ownership, p, item.getType(), item.getData().getData(), p.getLocation());
 			
 			if (bannedInfo == null) {
-				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Drop, p, item.getTypeId(), item.getDurability(), p.getLocation());
+				MaterialData bannedInfo2 = plugin.getRestrictedItemsHandler().isBanned(ActionType.Drop, p, item.getType(), item.getData().getData(), p.getLocation());
 				
 				if (bannedInfo2 != null) {
 					event.setCancelled(true);
