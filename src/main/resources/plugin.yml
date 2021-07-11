@@ -5,7 +5,6 @@ author: CraftersLand
 load: POSTWORLD
 website: www.craftersland.net
 description: Item Restrict system.
-api-version: 1.12
 commands:
     itemrestrict:
         description: Main command.
